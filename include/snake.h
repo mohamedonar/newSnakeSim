@@ -5,7 +5,7 @@
 #include <Adafruit_PCD8544.h>
 #include <vector>
 
-#include <GameController.h>
+#include <commonDefs.h>
 
 class Snake
 {

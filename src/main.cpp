@@ -13,6 +13,7 @@ uint8_t const screenBottom = display.height();
 
 Snake snake = Snake(screenTop,screenLeft,screenRight-1,screenBottom-1,&display);
 bool bIncreaseLength = false;
+bool bCanMove = true;
 uint8_t score = 0;
 DIRECTION dir = dRIGHT;
 
@@ -35,7 +36,7 @@ pixel getRandSeed()
 
     do {
         p.x = screenLeft + (rand() % screenRight);
-        p.y = screenTop + (rand() + screenBottom);
+        p.y = screenTop + (rand() % screenBottom);
     } while (PixelIsBlack(p));
 
     return p;
@@ -69,8 +70,6 @@ void setup() {
     display.begin();
     display.setContrast(57);
 
-    seed = getRandSeed();
-
     // Joystick Init & Callbacks
     joystickShield.calibrateJoystick();
     joystickShield.onJSUp(&JSup);
@@ -83,20 +82,37 @@ void setup() {
     joystickShield.onLeftButton(&JSleft);
 
     srand(0);
+    seed = getRandSeed();
 }
 
 void loop() {
-    display.clearDisplay();
+    if(bCanMove)
+    {
+        display.clearDisplay();
 
-    joystickShield.processCallbacks();
+        joystickShield.processCallbacks();
 
-    display.drawRect(screenLeft, screenTop, screenRight-screenLeft, screenBottom-screenTop, BLACK);
-    dispalyScore();
-    display.drawPixel(seed.x, seed.y, BLACK);
-    snake.draw();
+        display.drawRect(screenLeft, screenTop, screenRight-screenLeft, screenBottom-screenTop, BLACK);
+        dispalyScore();
+        display.drawPixel(seed.x, seed.y, BLACK);
+        snake.draw();
 
-    delay(200);
+        delay(200);
 
-    bIncreaseLength = rand() % 2;
-    snake.move(dir,bIncreaseLength);
+        bIncreaseLength = rand() % 2;
+        snake.move(dir,bIncreaseLength);
+
+        pixel p = snake.getSnakeHead();
+        if(p.x==seed.x && p.y==seed.y)
+        {    
+            score++;
+            bIncreaseLength = true;
+            seed = getRandSeed();
+        }
+        else
+        {
+            bIncreaseLength = false;
+            bCanMove = !PixelIsBlack(p);
+        }
+    }
 }
