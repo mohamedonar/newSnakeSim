@@ -62,18 +62,13 @@ pixel Snake::getSnakeHead()
 
 bool Snake::move(DIRECTION dir, bool bIncreaseLength)
 {
-//    bool bOkayToMove = true;
     int headSegPos = Segments.size()-1;
     DIRECTION curDir = Segments[headSegPos].dir;
     if(curDir==dir) {
         if(dir==dRIGHT || dir==dDOWN) {
-//            bOkayToMove = (dir==dRIGHT) ? Segments[headSegPos].nPmax<rightLimit-1 : Segments[headSegPos].nPmax<downLimit-1;
-//            if(bOkayToMove)
-                Segments[headSegPos].nPmax++;
+            Segments[headSegPos].nPmax++;
         } else {
-//            bOkayToMove = (dir==dLEFT) ? Segments[headSegPos].nPmin>leftLimit+1 : Segments[headSegPos].nPmin>topLimit-1;
-//            if(bOkayToMove)
-                Segments[headSegPos].nPmin--;
+            Segments[headSegPos].nPmin--;
         }
     } else {
         if((curDir==dRIGHT && dir==dLEFT) || (curDir==dLEFT && dir==dRIGHT) || (curDir==dUP && dir==dDOWN) || (curDir==dDOWN && dir==dUP))
@@ -90,7 +85,7 @@ bool Snake::move(DIRECTION dir, bool bIncreaseLength)
         Segments.push_back(newSeg);
     }
 
-    if(/*bOkayToMove && */ !bIncreaseLength) {
+    if(!bIncreaseLength) {
         if(Segments[0].dir==dRIGHT || Segments[0].dir==dDOWN) {
             Segments[0].nPmin++;
         } else {
@@ -101,7 +96,7 @@ bool Snake::move(DIRECTION dir, bool bIncreaseLength)
             Segments.erase(Segments.begin());            
     }
 
-    return true; //bOkayToMove;
+    return true;
 }
 
 void Snake::draw()

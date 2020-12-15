@@ -17,13 +17,4 @@ struct pixel {
     int8_t y;
 };
 
-class GameController
-{
-private:
-    /* data */
-public:
-    GameController(/* args */);
-    ~GameController();
-};
-
 #endif
