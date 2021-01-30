@@ -1,0 +1,9 @@
+Joystick shield on Arduino
+
+Nokia 5110 pins:
+RST <-> D13
+CE  <-> D12
+DC  <-> D11
+Din <-> D10
+Clk <-> D9
+BL  <-> +
